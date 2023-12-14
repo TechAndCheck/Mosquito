@@ -3,7 +3,7 @@
 require_relative "lib/mosquito/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "mosquito"
+  spec.name          = "mosquito-scrape"
   spec.version       = Mosquito::VERSION
   spec.authors       = ["Christopher Guess"]
   spec.email         = ["cguess@gmail.com"]
