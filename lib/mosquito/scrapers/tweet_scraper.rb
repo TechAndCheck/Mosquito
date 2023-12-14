@@ -43,11 +43,11 @@ module Mosquito
       video_file_type = nil
 
       # Single image
-      images.concat(doc.xpath("//a[contains(@class, 'still-image')][1]/href"))
+      images.concat(Mosquito.retrieve_media(doc.xpath("//a[contains(@class, 'still-image')][1]/href")))
 
       # Slideshow
       nodes = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div[contains(@class, 'attachments')]/div[contains(@class, 'gallery-row')]/div/a/@href")
-      images.concat(nodes.map { |node| "#{Capybara.app_host}#{node.value}" })
+      images.concat(nodes.map { |node| Mosquito.retrieve_media("#{Capybara.app_host}#{node.value}") })
 
       # Video
       nodes = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div[contains(@class, 'attachments')]/div[contains(@class, 'gallery-video')]/div/video")
@@ -61,7 +61,7 @@ module Mosquito
       nodes = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div[contains(@class, 'attachments')]/div[contains(@class, 'gallery-gif')]/div/video")
       unless nodes.empty?
         video_preview_image = nodes.first["poster"]
-        videos.concat(nodes.map { |node| "#{Capybara.app_host}#{node.xpath("//source[1]/source/@src").first&.content}" })
+        videos.concat(nodes.map { |node| Mosquito.retrieve_media("#{Capybara.app_host}#{node.xpath("//source[1]/source/@src").first&.content}") })
         video_file_type = "gif"
       end
 
