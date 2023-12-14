@@ -55,15 +55,15 @@ module Mosquito
       # Video
       nodes = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div[contains(@class, 'attachments')]/div[contains(@class, 'gallery-video')]/div/video")
       unless nodes.empty?
-        video_preview_image = nodes.first["poster"]
-        videos.concat(nodes.map { |node| "#{Capybara.app_host}#{node.xpath("//source").first["src"]}" })
+        video_preview_image = Mosquito.retrieve_media("#{Capybara.app_host}#{nodes.first["poster"]}", extension: ".jpg")
+        videos.concat(nodes.map { |node| Mosquito.retrieve_media(node.xpath("//source").first["src"]) })
         video_file_type = "video" # This is always video now, sing a gif isn't displayed differently
       end
 
       # GIF
       nodes = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div[contains(@class, 'attachments')]/div[contains(@class, 'gallery-gif')]/div/video")
       unless nodes.empty?
-        video_preview_image = nodes.first["poster"]
+        video_preview_image = Mosquito.retrieve_media(nodes.first["poster"], extension: ".jpg")
         videos.concat(nodes.map { |node| Mosquito.retrieve_media("#{Capybara.app_host}#{node.xpath("//source[1]/source/@src").first&.content}") })
         video_file_type = "gif"
       end
