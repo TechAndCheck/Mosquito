@@ -42,8 +42,11 @@ module Mosquito
       video_preview_image = nil
       video_file_type = nil
 
-      # Single image
-      images.concat(Mosquito.retrieve_media(doc.xpath("//a[contains(@class, 'still-image')][1]/href")))
+      # # Single image
+      # image_url = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div/div/div/a[contains(@class, 'still-image')]/@href").first&.content
+      # images << Mosquito.retrieve_media("#{Capybara.app_host}#{image_url}") unless image_url.nil?
+
+      # debugger
 
       # Slideshow
       nodes = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div[contains(@class, 'attachments')]/div[contains(@class, 'gallery-row')]/div/a/@href")

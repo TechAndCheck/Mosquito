@@ -50,12 +50,17 @@ module Mosquito
   # Get media from a URL and save to a temp folder set in the configuration under
   # temp_storage_location
   def self.retrieve_media(url)
+    return "" if url.nil?
     return "" if !Mosquito.save_media
 
     response = Typhoeus.get(url)
 
     # Get the file extension if it's in the file
-    extension = url.split(".").last
+    begin
+      extension = url.split(".").last
+    rescue StandardError => e
+      debugger
+    end
 
     # Do some basic checks so we just empty out if there's something weird in the file extension
     # that could do some harm.

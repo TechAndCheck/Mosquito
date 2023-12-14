@@ -23,7 +23,7 @@ class UserTest < Minitest::Test
     assert_equal "f_obermaier", user.username
     assert_equal "Threema FPN4FKZE  | PGP", user.location
     assert user.description.include? "journalist"
-    assert_equal nil, user.url
+    assert_nil user.url
     assert_kind_of Integer, user.followers_count
     assert_kind_of Integer, user.following_count
     assert_kind_of Integer, user.tweet_count
