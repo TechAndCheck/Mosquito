@@ -30,18 +30,28 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Prod dependencies
-  spec.add_dependency "typhoeus", "~> 1.4.0"
-  spec.add_dependency "oauth", "~> 0.5.6"
+  spec.add_dependency "typhoeus", "~> 1.4"
+  spec.add_dependency "nokogiri", "~> 1.15.5"
+  spec.add_dependency "capybara", "~> 3.39"
+  spec.add_dependency "dotenv", "~> 2.8"
+  spec.add_dependency "oj", "~> 3.16"
+  spec.add_dependency "fileutils", "~> 1.7"
+  spec.add_dependency "logger", "~> 1.6"
+  spec.add_dependency "securerandom", "~> 0.3"
+  spec.add_dependency "selenium-webdriver", "~> 4"
+  spec.add_dependency "open-uri", "~> 0.4"
+  spec.add_dependency "activesupport", "~> 7.0.8"
+  spec.add_dependency "rack", "~> 2"
 
   # Dev dependencies
-  spec.add_development_dependency "byebug"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "minitest"
-  spec.add_development_dependency "rubocop"
-  spec.add_development_dependency "rubocop-rails"
-  spec.add_development_dependency "rubocop-rails_config"
-  spec.add_development_dependency "rubocop-performance"
-  spec.add_development_dependency "dotenv"
+  spec.add_development_dependency "byebug", "~> 11.0"
+  spec.add_development_dependency "rake", "~> 13.0"
+  spec.add_development_dependency "minitest", "~> 5"
+  spec.add_development_dependency "rubocop", "~> 1.0"
+  spec.add_development_dependency "rubocop-rails", "~> 2.0"
+  spec.add_development_dependency "rubocop-rails_config", "~> 1.0"
+  spec.add_development_dependency "rubocop-performance", "~> 1.0"
+  spec.add_development_dependency "dotenv", "~> 2.0"
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html
