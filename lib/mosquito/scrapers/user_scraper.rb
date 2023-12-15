@@ -62,7 +62,7 @@ module Mosquito
         tweet_count: tweet_count,
         listed_count: listed_count,
         verified: verified,
-        url: url,
+        url: url.nil? ? "" : url,
         profile_image_file_name: profile_image_file_name
       }
 
