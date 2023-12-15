@@ -28,11 +28,13 @@ module Mosquito
 
       username = username.delete("/")
 
-      doc = Nokogiri::HTML(URI.open("#{ENV["NITTER_URL"]}/#{username}"))
+      doc = Nokogiri::HTML(URI.open("#{ENV["NITTER_URL"]}/#{username}"), nil, Encoding::UTF_8.to_s)
 
       unless doc.xpath("//div[contains(@class, 'error-panel')]").empty?
         raise Mosquito::NoTweetFoundError
       end
+
+      debugger
 
       id = username
       full_name = doc.xpath("//a[contains(@class, 'profile-card-fullname')]/@title").first&.value

@@ -21,7 +21,7 @@ module Mosquito
       # video slideshows https://www.instagram.com/p/CY7KxwYOFBS/?utm_source=ig_embed&utm_campaign=loading
       # login
       begin
-        doc = Nokogiri::HTML(URI.open("#{ENV["NITTER_URL"]}/jack/status/#{id}"))
+        doc = Nokogiri::HTML(URI.open("#{ENV["NITTER_URL"]}/jack/status/#{id}"), nil, Encoding::UTF_8.to_s)
       rescue OpenURI::HTTPError
         raise Mosquito::NoTweetFoundError
       end
@@ -30,6 +30,7 @@ module Mosquito
         raise Mosquito::NoTweetFoundError
       end
 
+      debugger
       text = doc.xpath("//div[contains(@class, 'tweet-content media-body')]").first.content
       date = DateTime.parse(doc.xpath("//span[contains(@class, 'tweet-date')]").first.child["title"])
       id = URI.parse(doc.xpath("//link[contains(@rel, 'canonical')]").first["href"]).path.split("/").last
