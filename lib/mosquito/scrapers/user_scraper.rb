@@ -51,19 +51,19 @@ module Mosquito
 
       user = {
         id: id,
-        name: full_name,
-        username: username,
-        sign_up_date: sign_up_date,
-        location: location,
-        profile_image_url: profile_image_url,
-        description: description,
-        followers_count: followers_count,
-        following_count: following_count,
-        tweet_count: tweet_count,
-        listed_count: listed_count,
-        verified: verified,
+        name: full_name.nil? ? "" : full_name,
+        username: username.nil? ? "" : username,
+        sign_up_date: sign_up_date.nil? ? "" : sign_up_date,
+        location: location.nil? ? "" : location,
+        profile_image_url: profile_image_url.nil? ? "" : profile_image_url,
+        description: description.nil? ? "" : description,
+        followers_count: followers_count.nil? ? "" : followers_count,
+        following_count: following_count.nil? ? "" : following_count,
+        tweet_count: tweet_count.nil? ? "" : tweet_count,
+        listed_count: listed_count.nil? ? "" : listed_count,
+        verified: verified.nil? ? false : verified,
         url: url.nil? ? "" : url,
-        profile_image_file_name: profile_image_file_name
+        profile_image_file_name: profile_image_file_name.nil? ? "" : profile_image_file_name
       }
 
       user
