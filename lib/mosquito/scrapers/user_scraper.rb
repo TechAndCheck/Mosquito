@@ -34,8 +34,6 @@ module Mosquito
         raise Mosquito::NoTweetFoundError
       end
 
-      debugger
-
       id = username
       full_name = doc.xpath("//a[contains(@class, 'profile-card-fullname')]/@title").first&.value
       username = username

@@ -30,7 +30,6 @@ module Mosquito
         raise Mosquito::NoTweetFoundError
       end
 
-      debugger
       text = doc.xpath("//div[contains(@class, 'tweet-content media-body')]").first.content
       date = DateTime.parse(doc.xpath("//span[contains(@class, 'tweet-date')]").first.child["title"])
       id = URI.parse(doc.xpath("//link[contains(@rel, 'canonical')]").first["href"]).path.split("/").last
@@ -46,8 +45,6 @@ module Mosquito
       # # Single image
       # image_url = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div/div/div/a[contains(@class, 'still-image')]/@href").first&.content
       # images << Mosquito.retrieve_media("#{Capybara.app_host}#{image_url}") unless image_url.nil?
-
-      # debugger
 
       # Slideshow
       nodes = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div[contains(@class, 'attachments')]/div[contains(@class, 'gallery-row')]/div/a/@href")
