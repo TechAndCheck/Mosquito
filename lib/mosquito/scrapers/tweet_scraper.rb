@@ -60,9 +60,9 @@ module Mosquito
           video_preview_image = Mosquito.retrieve_media("#{Capybara.app_host}#{nodes.first["poster"]}", extension: ".jpg")
           videos << nodes.map do |node|
             unless node.xpath("//source").empty?
-              node.xpath("//source").first["src"]
+              Mosquito.retrieve_media("#{Capybara.app_host}#{node.xpath("//source").first["src"]}", extension: ".mp4")
             else
-              Mosquito.retrieve_media(node.xpath("//video").first["data-url"])
+              Mosquito.retrieve_media("#{Capybara.app_host}#{node.xpath("//video").first["data-url"]}", extension: ".mp4")
             end
           end
           video_file_type = "video" # This is always video now, sing a gif isn't displayed differently
