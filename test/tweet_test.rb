@@ -122,4 +122,10 @@ class TweetTest < Minitest::Test
     tweet = Mosquito::Tweet.lookup("1664966807789387778").first
     assert tweet.text.include? "पहली बार खुलकर बोली भारत की महामहिम राष्ट्रपति द्रोपदी"
   end
+
+  def test_detection_of_removed_post
+    assert_raises Mosquito::NoTweetFoundError do
+      Mosquito::Tweet.lookup("1273770669214490626").first
+    end
+  end
 end

@@ -18,8 +18,6 @@ module Mosquito
 
       Capybara.app_host = ENV["NITTER_URL"]
 
-      # video slideshows https://www.instagram.com/p/CY7KxwYOFBS/?utm_source=ig_embed&utm_campaign=loading
-      # login
       begin
         doc = Nokogiri::HTML(URI.open("#{ENV["NITTER_URL"]}/jack/status/#{id}"), nil, Encoding::UTF_8.to_s)
       rescue OpenURI::HTTPError
@@ -51,11 +49,24 @@ module Mosquito
       images.concat(nodes.map { |node| Mosquito.retrieve_media("#{Capybara.app_host}#{node.value}") })
 
       # Video
-      nodes = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div[contains(@class, 'attachments')]/div[contains(@class, 'gallery-video')]/div/video")
+      nodes = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div[contains(@class, 'attachments')]/div[contains(@class, 'gallery-video')]/div")
       unless nodes.empty?
-        video_preview_image = Mosquito.retrieve_media("#{Capybara.app_host}#{nodes.first["poster"]}", extension: ".jpg")
-        videos.concat(nodes.map { |node| Mosquito.retrieve_media(node.xpath("//source").first["src"]) })
-        video_file_type = "video" # This is always video now, sing a gif isn't displayed differently
+        nodes = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div[contains(@class, 'attachments')]/div[contains(@class, 'gallery-video')]/div/video")
+        if nodes.empty?
+          # Video Removed
+          nodes = doc.xpath("//div[contains(@class, 'main-tweet')]/div/div/div[contains(@class, 'attachments')]/div[contains(@class, 'gallery-video')]/div/div[contains(@class, 'video-overlay')]/p[contains(text(), 'This media is unavailable')]")
+          raise Mosquito::NoTweetFoundError unless nodes.empty?
+        else
+          video_preview_image = Mosquito.retrieve_media("#{Capybara.app_host}#{nodes.first["poster"]}", extension: ".jpg")
+          videos << nodes.map do |node|
+            unless node.xpath("//source").empty?
+              node.xpath("//source").first["src"]
+            else
+              Mosquito.retrieve_media(node.xpath("//video").first["data-url"])
+            end
+          end
+          video_file_type = "video" # This is always video now, sing a gif isn't displayed differently
+        end
       end
 
       # GIF
@@ -65,6 +76,8 @@ module Mosquito
         videos.concat(nodes.map { |node| Mosquito.retrieve_media("#{Capybara.app_host}#{node.xpath("//source[1]/source/@src").first&.content}") })
         video_file_type = "gif"
       end
+
+
 
       username = doc.xpath("//a[contains(@class, 'username')][1]/@href").first.value
       user = UserScraper.new.parse(username)
