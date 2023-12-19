@@ -95,7 +95,7 @@ private
     line = Terrapin::CommandLine.new("ffmpeg", "-i :url -c copy :path")
     path = "#{Mosquito.temp_storage_location}/#{SecureRandom.uuid}.mp4"
     success = line.run(path: path, url: url)
-    return true if success.empty?
+    return path if success.empty?
     false
   end
 end

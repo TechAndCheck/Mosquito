@@ -67,6 +67,8 @@ module Mosquito
           end
           video_file_type = "video" # This is always video now, sing a gif isn't displayed differently
         end
+
+        videos.flatten!
       end
 
       # GIF
