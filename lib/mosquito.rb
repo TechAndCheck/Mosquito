@@ -6,6 +6,7 @@ require "date"
 require "securerandom"
 require "helpers/configuration"
 require "fileutils"
+require "terrapin"
 
 require_relative "mosquito/version"
 require_relative "mosquito/tweet"
@@ -55,6 +56,12 @@ module Mosquito
 
     response = Typhoeus.get(url)
 
+    # If this is an m3u playlist, parse it it first
+    if response.body.start_with?("#EXTM3U")
+      temp_file_name = download_m3u_playlist(url)
+      return temp_file_name
+    end
+
     # Get the file extension if it's in the file
     if extension.nil?
       extension = url.split(".").last
@@ -81,5 +88,14 @@ private
   def self.create_temp_storage_location
     return if File.exist?(Mosquito.temp_storage_location) && File.directory?(Mosquito.temp_storage_location)
     FileUtils.mkdir_p Mosquito.temp_storage_location
+  end
+
+  def self.download_m3u_playlist(url)
+    # ffmpeg -i https://nitter.ktachibana.party/video/BBAC238EE870E/https%3A%2F%2Fvideo.twimg.com%2Fext_tw_video%2F1734886533503549440%2Fpu%2Fpl%2FSwWhbDP6oC35nlvU.m3u8%3Ftag%3D12%26container%3Dfmp4 -c copy test.mp4
+    line = Terrapin::CommandLine.new("ffmpeg", "-i :url -c copy :path")
+    path = "#{Mosquito.temp_storage_location}/#{SecureRandom.uuid}.mp4"
+    success = line.run(path: path, url: url)
+    return true if success.empty?
+    false
   end
 end

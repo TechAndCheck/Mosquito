@@ -42,6 +42,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "open-uri", "~> 0.4"
   spec.add_dependency "activesupport", "~> 7.0.8"
   spec.add_dependency "rack", "~> 2"
+  spec.add_dependency "terrapin", "~> 1.0.1"
 
   # Dev dependencies
   spec.add_development_dependency "byebug", "~> 11.0"
